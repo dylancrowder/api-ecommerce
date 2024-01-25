@@ -1,0 +1,28 @@
+<h1>Carrito</h1>
+<article>
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Size</th>
+      <th>Price</th>
+      <th>Quantity</th>
+    </tr>
+    {{#each cart.products}}
+    <tr>
+      <td>{{this.product.title}}</td>
+      <td>{{this.product.size}}</td>
+      <td>{{this.product.price}}</td>
+      <td>{{this.quantity}}</td>
+    </tr>
+    {{/each}}
+
+  </table>
+
+  <header>
+    <a href="/api/profile" role="button">volver a inicio</a>
+  </header>
+  <header>
+    <a href="/api/purcherase/{{cart.user}}" role="button">comprar</a>
+  </header>
+
+</article>
