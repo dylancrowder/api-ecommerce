@@ -10,7 +10,7 @@ export default class productsDaoMongoDB {
   }
 
   static updateById(tid, data) {
-    return productsModel.updateOne({ _id: tid }, { $set: data });
+    return productsModel.updateOne({ _id: tid }, { $inc: { stock: data } });
   }
 
   static deleteOne(tid) {
@@ -20,4 +20,11 @@ export default class productsDaoMongoDB {
   static getById(id) {
     return productsModel.findById(id);
   }
+
+  static insertMany(usersData) {
+  
+    return productsModel.insertMany(usersData);
+  }
+
+
 }

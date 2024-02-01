@@ -6,7 +6,7 @@ export default class CartService {
   static createOne(user) {
     return cartsDaoMongoDB.createOne(user);
   }
-  static async updateOne(user) {
-    return await cartsDaoMongoDB.updateOne(user);
+  static async updateOne(user, product) {
+    return await cartsDaoMongoDB.updateOne(user, product);
   }
 }

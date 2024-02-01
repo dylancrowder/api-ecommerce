@@ -1,60 +1,66 @@
 import TicketService from "../services/ticket.service.js";
 import CartService from "../services/cart.service.js";
 import UserController from "./user.controller.js";
-
-
+import ProductService from "../services/products.service.js";
 
 export default class TicketController {
     static async generateTicket(cartId) {
         try {
-
             const cart = await CartService.getByIdCart(cartId);
-            const getUser = await UserController.findById(cart.user.toString())
+            const getUser = await UserController.findById(cart.user.toString());
             const userEmail = getUser[0].email;
 
-
-
-            //buscar los productos que superan el stock y separarlos
-            let sinStock = [];
-            let cartWhitStock = cart.products.filter((item) => {
+            // Buscar los productos que superan el stock y separarlos
+            let outStock = [];
+            let cartWithStock = cart.products.filter((item) => {
                 const stockQuantity = item.product.stock;
                 const purchaseQuantity = item.quantity;
 
                 if (stockQuantity < purchaseQuantity) {
                     console.log("El producto está sin stock", item.product.code, stockQuantity, purchaseQuantity);
-                    sinStock.push(item.product.code);
+                    outStock.push(item.product.code);
                     return false;
                 }
 
                 return true;
             });
 
+            // Actualizar la base de datos
+            const updateDataBasePromises = cartWithStock.map(async (item) => {
+                const idProducto = item.product.id;
+                const quantity = -item.quantity;
+                await ProductService.updateById(idProducto, quantity);
+            });
 
-            //obtener el monto total
-            const total = cartWhitStock.reduce(
+            // Esperar a que todas las actualizaciones se completen
+            await Promise.all(updateDataBasePromises);
+
+            // Obtener el monto total
+            const total = cartWithStock.reduce(
                 (total, productEntry) => total + productEntry.product.price * productEntry.quantity,
                 0
             );
-            console.log("Productos con stock:", total);
-            console.log("Productos sin stock:", sinStock);
 
+            console.log("Productos sin stock:", outStock);
 
+            // Crear el nuevo ticket
             const newTicket = {
-
                 amount: total,
-                purchaser: userEmail
-            }
+                purchaser: userEmail,
+            };
 
+            // Generar el ticket
             const generatedTicket = await TicketService.generateTicket(newTicket);
 
-
-            return generatedTicket;
+            return {
+                outStock: outStock,
+                generatedTicket: generatedTicket
+            }
         } catch (error) {
-
             console.error("Error al generar el ticket:", error);
             throw error;
         }
     }
+
+
 }
-
-

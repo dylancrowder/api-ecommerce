@@ -39,7 +39,7 @@ class ProfileController {
 
     return {
       status: "success",
-      payload: docs.map((doc) => doc.toJSON()), // include products in payload
+      payload: docs.map((doc) => doc.toJSON()), 
       totalPages,
       prevPage,
       nextPage,

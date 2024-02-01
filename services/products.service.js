@@ -20,4 +20,11 @@ export default class ProductService {
   static getById(id) {
     return productsDaoMongoDB.getById(id);
   }
+
+  static insertMany(usersData) {
+
+    return productsDaoMongoDB.insertMany(usersData);
+  }
+
+
 }

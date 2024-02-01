@@ -28,5 +28,8 @@
   },
   "author": "code",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.0"
+  }
 }

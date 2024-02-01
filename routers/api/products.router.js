@@ -1,7 +1,8 @@
 import { Router } from "express";
 import ProductController from "../../controllers/products.controller.js";
-import productsModel from "../../dao/models/products.model.js";
-
+import { generatorUserError } from "../../errors/CauseMessageError.js";
+import { CustomError } from "../../errors/CustomError.js";
+import EnumsError from "../../errors/EnumsError.js";
 const router = Router();
 
 router.get("/products", async (req, res) => {
@@ -31,7 +32,53 @@ router.get("/getProduct/:pid", async (req, res, next) => {
 
 router.post("/product", async (req, res, next) => {
   try {
-    const product = await ProductController.create(req.body);
+    const { data } = req.body
+
+    const {
+      title,
+      description,
+      thumbnail,
+      size,
+      price,
+      code,
+      stock } = data
+    
+    
+      if (!title ||
+      !description ||
+      !thumbnail ||
+      !size ||
+      !price ||
+      isNaN(price) ||
+      !code ||
+      isNaN(code) ||
+      !stock ||
+      isNaN(stock)) {
+
+      CustomError.create({
+        name: 'no llega la data',
+        cause: generatorUserError({
+          title,
+          description,
+          thumbnail,
+          size,
+          price,
+          code,
+          stock
+        }),
+        message: 'no se recibieron los datos',
+        code: EnumsError.BAD_REQUEST_ERROR,
+      });
+
+      throw error;
+    }
+
+
+
+    const product = await ProductController.create(data);
+
+
+
     res.status(201).render(product);
   } catch (error) {
     next(error);
@@ -46,7 +93,7 @@ router.delete("/deleteProduct/:pid", async (req, res) => {
     const result = await ProductController.deleteOne({ _id: pid });
 
     if (result.deletedCount === 1) {
-      // Product successfully deleted
+
       res.status(200).json({ message: 'Product deleted successfully' });
     } else {
       // Product not found

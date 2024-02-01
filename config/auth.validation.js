@@ -7,7 +7,9 @@ const USERS_ROUTES = [
     '/api/chat',
     '/api/sessions/register',
     "/api/getProduct/",
-    "/api/purcherase"
+    "/api/purcherase",
+    "/api/mockingproducts",
+    "/api/testDelete"
 ];
 
 const ADMIN_ROUTES = [

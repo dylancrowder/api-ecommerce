@@ -4,17 +4,12 @@ import ProductService from "../services/products.service.js";
 
 export default class CartsController {
   static async getById(cartId) {
-    try {
-      const cart = await CartService.getByIdCart(cartId);
-      if (!cart) {
-        throw new Error("Carrito no encontrado");
-      }
 
-      console.log("este es el carro ", cart);
-      return cart;
-    } catch (error) {
-      throw new Error("Error al obtener el carrito: " + error.message);
-    }
+    const cart = await CartService.getByIdCart(cartId);
+
+    return cart;
+
+
   }
 
   static async addToCart(userId, productId) {
@@ -29,8 +24,13 @@ export default class CartsController {
       if (!cart) {
         cart = await CartService.createOne(user._id);
       }
+
+
+
+
       const existingProductIndex = cart.products.findIndex((item) =>
         item.product.equals(product._id)
+
       );
 
       if (existingProductIndex !== -1) {
@@ -50,4 +50,27 @@ export default class CartsController {
       return { success: false, error: "Error interno del servidor." };
     }
   }
+
+  static async deleteOne(uid, productId) {
+    // Obtener el carrito actual del usuario
+    const getCart = await CartService.getByIdCart(uid);
+
+    const deleteProduct = getCart.products.findIndex(producto => producto.id === productId);
+
+    // Verificar si se encontró el producto
+    if (deleteProduct !== -1) {
+
+      getCart.products.splice(deleteProduct, 1);
+      console.log(`Producto con ID ${productId} eliminado.`);
+    } else {
+      console.log(`No se encontró un producto con ID ${productId}.`);
+    }
+
+
+    const updateCart = await CartService.updateOne(uid, getCart.products);
+
+    return updateCart;
+  }
+
 }
+

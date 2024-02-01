@@ -1,37 +1,45 @@
 import { Router } from "express";
 import CartsController from "../../controllers/cart.controller.js";
 import TicketController from "../../controllers/ticket.controller.js";
+import { CustomError } from "../../errors/CustomError.js";
+import { generatorID } from "../../errors/CauseMessageError.js";
+import EnumsError from "../../errors/EnumsError.js";
 const router = Router();
 
 /* mostrar el carrito */
-router.get("/cartsview/:cid", async (req, res) => {
+router.get("/cartsview/:uid", async (req, res, next) => {
   try {
-    const { cid } = req.params;
+    const { uid } = req.params;
 
-    const cart = await CartsController.getById(cid);
+    const cart = await CartsController.getById(uid);
 
     if (!cart) {
-      return res
-        .status(404)
-        .render("error", { message: "Carrito no encontrado" });
+      const customError = CustomError.create({
+        name: 'NoDataError',
+        message: "debes iniciar session o agregar un product",
+        cause: generatorID(),
+        code: EnumsError.NOT_USER_REGISTER,
+      });
+
+      throw customError;
+
     }
 
-
-    res.render("cart", { cart: cart.toJSON(), title: "carrito" });
+    res.render("cart", { cart: cart.toJSON(), user: uid, title: "carrito" });
   } catch (error) {
-    console.error(error.message);
-    res.status(500).render("error", { message: "Error al obtener el carrito" });
+    console.error("Message:", error.message);
+    next(error);
   }
 });
 
+
 router.post("/add-to-cart/:productId", async (req, res) => {
   try {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ error: "Usuario no autenticado" });
-    }
 
     const { productId } = req.params;
     const userId = req.user._id;
+
+
 
     console.log(`Adding product ${productId} to the cart for user ${userId}`);
 
@@ -41,6 +49,8 @@ router.post("/add-to-cart/:productId", async (req, res) => {
       console.log(`Product added successfully: ${result.message}`);
       return res.json({ message: result.message });
     } else {
+
+
       console.error(`Error adding product to cart: ${result.error}`);
       return res.status(500).json({ error: result.error });
     }
@@ -53,12 +63,23 @@ router.post("/add-to-cart/:productId", async (req, res) => {
 
 
 router.get("/purcherase/:cid", async (req, res) => {
+
   const { cid } = req.params
 
   const ticket = await TicketController.generateTicket(cid)
 
   res.status(200).json({ ticket })
 
+})
 
+
+router.delete("/testDelete/:pid", async (req, res) => {
+
+  const uid = req.user._id.toString();
+  const { pid } = req.params
+
+
+  const cartUser = await CartsController.deleteOne(uid, pid)
+  res.status(200).json(cartUser)
 })
 export default router;

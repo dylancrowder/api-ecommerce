@@ -10,7 +10,7 @@ export default class cartsDaoMongoDB {
     return await cartsModel.create({ user: user, products: [] });
   }
 
-  static async updateOne(user) {
-    return await cartsModel.updateOne({ user: user, products: [] });
+  static async updateOne(user, product) {
+    return await cartsModel.updateOne({ user: user, products: product });
   }
 }

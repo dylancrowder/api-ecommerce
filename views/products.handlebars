@@ -54,12 +54,8 @@
         <td>{{this.size}}</td>
         <td>{{this.price}}</td>
 
-
-
-
-
         <td>
-          <button onclick="buyProduct('{{this._id}}')" data-product-id="{{this._id}}">Comprar</button>
+          <button onclick="buyProduct({{this._id}})" data-product-id="{{this._id}}">Comprar</button>
         </td>
 
       </tr>
