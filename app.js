@@ -18,6 +18,7 @@ import ensureAuthenticated from "./config/auth.validation.js";
 
 import auth from "./routers/auth.router.js"
 import { errorHandlerMiddleware } from "./middlewares/errorMiddleware.js";
+import { addLogger } from "./config/logger.js";
 const SECRET = ",9O1z?Vq2yV0";
 
 app.use(
@@ -32,6 +33,7 @@ app.use(
     saveUninitialized: true
   })
 );
+app.use(addLogger);
 app.use(cookieParser());
 app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(__dirname, "views"));

@@ -16,14 +16,16 @@
     "passport-github2": "^0.1.12",
     "passport-local": "^1.0.0",
     "socket.io": "^4.7.2",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0"
   },
   "name": "entrega",
   "version": "1.0.0",
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "stert": "nodemoon server.js",
+    "start": "nodemon server.js",
+    "production": "nodemon server.js --mode production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "code",

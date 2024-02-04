@@ -4,6 +4,7 @@ import { Strategy as GithubStrategy } from "passport-github2";
 import UserModel from "../dao/models/userRegister.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 
+
 export const init = () => {
   const registerOpts = {
     usernameField: "email",
@@ -27,6 +28,7 @@ export const init = () => {
           )
         );
       }
+
       const newUser = await UserModel.create({
         first_name,
         last_name,
@@ -37,6 +39,8 @@ export const init = () => {
       done(null, newUser);
     })
   );
+
+
 
   passport.use(
     "login",

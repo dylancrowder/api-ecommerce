@@ -3,14 +3,14 @@ import config from "./config/config.js";
 import app from "./app.js";
 import { initChat } from "./socketChat.js";
 import { initMongo } from "./db/mongodb.js";
-
+import { logger } from "./config/logger.js";
 const PORT = config.port;
-console.log("este es el puerto" , PORT);
+console.log("este es el puerto", PORT);
 const server = http.createServer(app);
 
 await initMongo(server);
 initChat(server);
 
 server.listen(PORT, () => {
-  console.log(`el servidor funciona correctamente en el puerto ${PORT}`);
+  logger.info(`el servidor funciona correctamente en el puerto ${PORT}`);
 });

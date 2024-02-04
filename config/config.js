@@ -22,6 +22,7 @@ if (mode === "production") {
 console.log("este es el modo ", mode);
 dotenv.config({ path });
 export default {
+  env: process.env.MODE_ENV,
   port: process.env.PORT || 3000,
   mongodbUri:
     process.env.MONGODB_URI ||

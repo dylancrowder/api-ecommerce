@@ -4,6 +4,7 @@ import TicketController from "../../controllers/ticket.controller.js";
 import { CustomError } from "../../errors/CustomError.js";
 import { generatorID } from "../../errors/CauseMessageError.js";
 import EnumsError from "../../errors/EnumsError.js";
+import { logger } from "../../config/logger.js";
 const router = Router();
 
 /* mostrar el carrito */
@@ -39,9 +40,9 @@ router.post("/add-to-cart/:productId", async (req, res) => {
     const { productId } = req.params;
     const userId = req.user._id;
 
+    logger.info(`Adding product ${productId} to the cart for user ${userId}`)
 
-
-    console.log(`Adding product ${productId} to the cart for user ${userId}`);
+ 
 
     const result = await CartsController.addToCart(userId, productId);
 
