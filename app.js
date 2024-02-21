@@ -9,6 +9,7 @@ import productRouterApi from "./routers/api/products.router.js";
 import cartRouterApi from "./routers/api/carts.router.js";
 import cookieParser from "cookie-parser";
 import userLogin from "./routers/api/sessions.router.js";
+import email from "./routers/api/email.router.js"
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import { URI } from "./db/mongodb.js";
@@ -47,6 +48,7 @@ app.use(passport.session());
 
 app.use("/", userLogin);
 app.use("/", auth)
-app.use("/api", ensureAuthenticated, productRouterApi, cartRouterApi, inicio);
+app.use("/api", ensureAuthenticated, productRouterApi, cartRouterApi, inicio, email);
 app.use(errorHandlerMiddleware);
+
 export default app;

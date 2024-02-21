@@ -9,7 +9,11 @@ const USERS_ROUTES = [
     "/api/getProduct/",
     "/api/purcherase",
     "/api/mockingproducts",
-    "/api/testDelete"
+    "/api/testDelete",
+    "/api/editUser",
+    "/api/password-recovery",
+    "/api/recoverView",
+    "/api/reset-password"
 ];
 
 const ADMIN_ROUTES = [

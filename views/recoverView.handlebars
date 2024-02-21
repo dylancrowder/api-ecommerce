@@ -1,0 +1,9 @@
+<body>
+    <h1>Restablecer Contraseña</h1>
+    <form action="/api/reset-password?token={{token}}" method="post">
+        <h2>Contraseña nueva</h2>
+     
+        <input type="password" id="passwordNew" name="passwordNew" required>
+        <button type="submit">Restablecer Contraseña</button>
+    </form>
+</body>

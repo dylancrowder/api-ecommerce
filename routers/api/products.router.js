@@ -20,6 +20,18 @@ router.get("/products", async (req, res) => {
   }
 });
 
+
+router.get("/editUser", async (req, res) => {
+  try {
+    const user = req.user
+
+    res.status(200).render("editUser", user)
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 router.get("/getProduct/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
@@ -42,9 +54,9 @@ router.post("/product", async (req, res, next) => {
       price,
       code,
       stock } = data
-    
-    
-      if (!title ||
+
+
+    if (!title ||
       !description ||
       !thumbnail ||
       !size ||

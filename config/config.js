@@ -22,6 +22,10 @@ if (mode === "production") {
 console.log("este es el modo ", mode);
 dotenv.config({ path });
 export default {
+  email_user: process.env.EMAIL_USER,
+  email_password: process.env.EMAIL_PASSWORD,
+  email_tipe: process.env.EMAIL_TIPE,
+  email_port: process.env.EMAIL_PORT,
   env: process.env.MODE_ENV,
   port: process.env.PORT || 3000,
   mongodbUri:

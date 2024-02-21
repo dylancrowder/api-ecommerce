@@ -3,163 +3,41 @@
     "counters": {
       "vusers.created_by_name.Create an user and get by id": 200,
       "vusers.created": 200,
-      "http.requests": 202,
-      "http.codes.200": 4,
-      "http.responses": 4,
-      "http.downloaded_bytes": 213,
-      "plugins.metrics-by-endpoint./faker.codes.200": 2,
-      "errors.ECONNRESET": 4,
-      "vusers.failed": 200,
-      "errors.ECONNREFUSED": 196
+      "http.requests": 200,
+      "errors.ECONNREFUSED": 200,
+      "vusers.failed": 200
     },
     "rates": {
       "http.request_rate": 10
     },
-    "firstCounterAt": 1707067011541,
-    "firstHistogramAt": 1707067011573,
-    "lastCounterAt": 1707067030994,
-    "lastHistogramAt": 1707067011723,
-    "firstMetricAt": 1707067011541,
-    "lastMetricAt": 1707067030994,
-    "period": 1707067030000,
-    "summaries": {
-      "http.response_time": {
-        "min": 2,
-        "max": 4,
-        "count": 4,
-        "mean": 3,
-        "p50": 3,
-        "median": 3,
-        "p75": 3,
-        "p90": 3,
-        "p95": 3,
-        "p99": 3,
-        "p999": 3
-      },
-      "plugins.metrics-by-endpoint.response_time./faker": {
-        "min": 3,
-        "max": 4,
-        "count": 2,
-        "mean": 3.5,
-        "p50": 3,
-        "median": 3,
-        "p75": 3,
-        "p90": 3,
-        "p95": 3,
-        "p99": 3,
-        "p999": 3
-      }
-    },
-    "histograms": {
-      "http.response_time": {
-        "min": 2,
-        "max": 4,
-        "count": 4,
-        "mean": 3,
-        "p50": 3,
-        "median": 3,
-        "p75": 3,
-        "p90": 3,
-        "p95": 3,
-        "p99": 3,
-        "p999": 3
-      },
-      "plugins.metrics-by-endpoint.response_time./faker": {
-        "min": 3,
-        "max": 4,
-        "count": 2,
-        "mean": 3.5,
-        "p50": 3,
-        "median": 3,
-        "p75": 3,
-        "p90": 3,
-        "p95": 3,
-        "p99": 3,
-        "p999": 3
-      }
-    }
+    "firstCounterAt": 1707439944662,
+    "lastCounterAt": 1707439964122,
+    "firstMetricAt": 1707439944662,
+    "lastMetricAt": 1707439964122,
+    "period": 1707439960000,
+    "summaries": {},
+    "histograms": {}
   },
   "intermediate": [
     {
       "counters": {
-        "vusers.created_by_name.Create an user and get by id": 90,
-        "vusers.created": 90,
-        "http.requests": 92,
-        "http.codes.200": 4,
-        "http.responses": 4,
-        "http.downloaded_bytes": 213,
-        "plugins.metrics-by-endpoint./faker.codes.200": 2,
-        "errors.ECONNRESET": 4,
-        "vusers.failed": 90,
-        "errors.ECONNREFUSED": 86
+        "vusers.created_by_name.Create an user and get by id": 57,
+        "vusers.created": 57,
+        "http.requests": 57,
+        "errors.ECONNREFUSED": 57,
+        "vusers.failed": 57
       },
       "rates": {
         "http.request_rate": 10
       },
       "http.request_rate": null,
-      "firstCounterAt": 1707067011541,
-      "firstHistogramAt": 1707067011573,
-      "lastCounterAt": 1707067019996,
-      "lastHistogramAt": 1707067011723,
-      "firstMetricAt": 1707067011541,
-      "lastMetricAt": 1707067019996,
-      "period": "1707067010000",
-      "summaries": {
-        "http.response_time": {
-          "min": 2,
-          "max": 4,
-          "count": 4,
-          "mean": 3,
-          "p50": 3,
-          "median": 3,
-          "p75": 3,
-          "p90": 3,
-          "p95": 3,
-          "p99": 3,
-          "p999": 3
-        },
-        "plugins.metrics-by-endpoint.response_time./faker": {
-          "min": 3,
-          "max": 4,
-          "count": 2,
-          "mean": 3.5,
-          "p50": 3,
-          "median": 3,
-          "p75": 3,
-          "p90": 3,
-          "p95": 3,
-          "p99": 3,
-          "p999": 3
-        }
-      },
-      "histograms": {
-        "http.response_time": {
-          "min": 2,
-          "max": 4,
-          "count": 4,
-          "mean": 3,
-          "p50": 3,
-          "median": 3,
-          "p75": 3,
-          "p90": 3,
-          "p95": 3,
-          "p99": 3,
-          "p999": 3
-        },
-        "plugins.metrics-by-endpoint.response_time./faker": {
-          "min": 3,
-          "max": 4,
-          "count": 2,
-          "mean": 3.5,
-          "p50": 3,
-          "median": 3,
-          "p75": 3,
-          "p90": 3,
-          "p95": 3,
-          "p99": 3,
-          "p999": 3
-        }
-      }
+      "firstCounterAt": 1707439944662,
+      "lastCounterAt": 1707439949968,
+      "firstMetricAt": 1707439944662,
+      "lastMetricAt": 1707439949968,
+      "period": "1707439940000",
+      "summaries": {},
+      "histograms": {}
     },
     {
       "counters": {
@@ -173,31 +51,31 @@
         "http.request_rate": 10
       },
       "http.request_rate": null,
-      "firstCounterAt": 1707067020540,
-      "lastCounterAt": 1707067029994,
-      "firstMetricAt": 1707067020540,
-      "lastMetricAt": 1707067029994,
-      "period": "1707067020000",
+      "firstCounterAt": 1707439950018,
+      "lastCounterAt": 1707439959968,
+      "firstMetricAt": 1707439950018,
+      "lastMetricAt": 1707439959968,
+      "period": "1707439950000",
       "summaries": {},
       "histograms": {}
     },
     {
       "counters": {
-        "vusers.created_by_name.Create an user and get by id": 10,
-        "vusers.created": 10,
-        "http.requests": 10,
-        "errors.ECONNREFUSED": 10,
-        "vusers.failed": 10
+        "vusers.created_by_name.Create an user and get by id": 43,
+        "vusers.created": 43,
+        "http.requests": 43,
+        "errors.ECONNREFUSED": 43,
+        "vusers.failed": 43
       },
       "rates": {
         "http.request_rate": 10
       },
       "http.request_rate": null,
-      "firstCounterAt": 1707067030540,
-      "lastCounterAt": 1707067030994,
-      "firstMetricAt": 1707067030540,
-      "lastMetricAt": 1707067030994,
-      "period": "1707067030000",
+      "firstCounterAt": 1707439960018,
+      "lastCounterAt": 1707439964122,
+      "firstMetricAt": 1707439960018,
+      "lastMetricAt": 1707439964122,
+      "period": "1707439960000",
       "summaries": {},
       "histograms": {}
     }

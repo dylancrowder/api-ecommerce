@@ -35,9 +35,4 @@ scenarios:
         email: "{{ email }}"
         password: "{{ password }}"
 
-      capture:
-      - json: "$._id"
-        as: "id"
 
-  headers:
-    Authorization: "Bearer {{ id }}"
