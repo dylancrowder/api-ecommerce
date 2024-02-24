@@ -16,8 +16,7 @@ const USERS_ROUTES = [
     "/api/reset-password"
 ];
 
-const ADMIN_ROUTES = [
-    '/api/cartsview',
+const ADMIN_ROUTES = [ 
     '/api/chat',
     "/api/add-to-cart"
 ];
@@ -46,3 +45,14 @@ export default function ensureAuthenticated(req, res, next) {
 
     res.redirect("/login");
 }
+
+
+
+
+
+
+
+
+
+
+

@@ -16,10 +16,10 @@ import { URI } from "./db/mongodb.js";
 import passport from "passport";
 import { init as initPassport } from "./config/passportConfig.js";
 import ensureAuthenticated from "./config/auth.validation.js";
-
 import auth from "./routers/auth.router.js"
 import { errorHandlerMiddleware } from "./middlewares/errorMiddleware.js";
 import { addLogger } from "./config/logger.js";
+
 const SECRET = ",9O1z?Vq2yV0";
 
 app.use(
@@ -48,7 +48,7 @@ app.use(passport.session());
 
 app.use("/", userLogin);
 app.use("/", auth)
-app.use("/api", ensureAuthenticated, productRouterApi, cartRouterApi, inicio, email);
+app.use("/api", productRouterApi, cartRouterApi, inicio, email);
 app.use(errorHandlerMiddleware);
 
 export default app;

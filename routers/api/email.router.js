@@ -3,7 +3,7 @@ import EmailService from "../../services/email.service.js";
 import Email from "../../controllers/email.controller.js";
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-
+import authMiddleware from "../../config/auth.validation.jwt.js";
 
 const router = Router();
 
@@ -13,7 +13,7 @@ const generateUserSecret = (userId) => {
   return `${userId}_${randomPart}`;
 };
 
-router.get('/password-recovery', async (req, res) => {
+router.get('/password-recovery', authMiddleware(["admin", "premium", "user"]), async (req, res) => {
   try {
     const user = req.user;
 
@@ -51,7 +51,7 @@ router.get('/password-recovery', async (req, res) => {
   }
 });
 
-router.get("/recoverView", async (req, res) => {
+router.get("/recoverView", authMiddleware(["admin", "premium", "user"]), async (req, res) => {
   const { token } = req.query
   console.log("este es el token de la vista", token);
   res.status(200).render("recoverView", { token });
@@ -59,7 +59,7 @@ router.get("/recoverView", async (req, res) => {
 
 
 
-router.post("/reset-password", async (req, res) => {
+router.post("/reset-password", authMiddleware(["admin", "premium", "user"]),async (req, res) => {
   try {
     const user = req.user;
     const { passwordNew } = req.body;

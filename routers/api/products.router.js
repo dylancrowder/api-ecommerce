@@ -3,9 +3,10 @@ import ProductController from "../../controllers/products.controller.js";
 import { generatorUserError } from "../../errors/CauseMessageError.js";
 import { CustomError } from "../../errors/CustomError.js";
 import EnumsError from "../../errors/EnumsError.js";
+import authMiddleware from "../../config/auth.validation.jwt.js";
 const router = Router();
 
-router.get("/products", async (req, res) => {
+router.get("/products", authMiddleware(["admin", "premium"]), async (req, res) => {
   try {
     const { limit, page, sort, search } = req.query;
     const products = await ProductController.getALL({
@@ -14,6 +15,7 @@ router.get("/products", async (req, res) => {
       sort,
       search
     });
+
     res.status(200).render("createProducts", products)
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -21,7 +23,7 @@ router.get("/products", async (req, res) => {
 });
 
 
-router.get("/editUser", async (req, res) => {
+router.get("/editUser", authMiddleware(["admin", "premium", "user"]), async (req, res) => {
   try {
     const user = req.user
 
@@ -32,7 +34,7 @@ router.get("/editUser", async (req, res) => {
 });
 
 
-router.get("/getProduct/:pid", async (req, res, next) => {
+router.get("/getProduct/:pid", authMiddleware(["admin", "premium", "user"]), async (req, res, next) => {
   try {
     const { pid } = req.params;
     const product = await ProductController.getById(pid);
@@ -42,9 +44,13 @@ router.get("/getProduct/:pid", async (req, res, next) => {
   }
 });
 
-router.post("/product", async (req, res, next) => {
+router.post("/product", authMiddleware(["admin", "premium"]), async (req, res, next) => {
   try {
     const { data } = req.body
+    const userEmail = req.user.email
+    const role = req.user.role
+
+
 
     const {
       title,
@@ -55,7 +61,12 @@ router.post("/product", async (req, res, next) => {
       code,
       stock } = data
 
+    const dataSend = {
+      ...data,
+      userEmail,
+      role
 
+    }
     if (!title ||
       !description ||
       !thumbnail ||
@@ -87,7 +98,7 @@ router.post("/product", async (req, res, next) => {
 
 
 
-    const product = await ProductController.create(data);
+    const product = await ProductController.create(dataSend);
 
 
 
@@ -99,10 +110,12 @@ router.post("/product", async (req, res, next) => {
 
 
 
-router.delete("/deleteProduct/:pid", async (req, res) => {
+router.delete("/deleteProduct/:pid/:uid", authMiddleware(["admin", "premium"]), async (req, res) => {
   try {
     const { pid } = req.params;
-    const result = await ProductController.deleteOne({ _id: pid });
+    const { uid } = req.params
+
+    const result = await ProductController.deleteOne(pid, uid);
 
     if (result.deletedCount === 1) {
 

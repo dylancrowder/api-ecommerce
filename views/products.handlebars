@@ -27,8 +27,13 @@
       cursor: pointer;
     }
   </style>
+  {{#if admin }}
+  <header>
+    <a href="/api/products" role="button">Crear producto</a>
+  </header>
+  {{/if}}
 
-  {{#if admin}}
+  {{#if premium }}
   <header>
     <a href="/api/products" role="button">Crear producto</a>
   </header>

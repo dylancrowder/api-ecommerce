@@ -3,13 +3,13 @@ import { Router } from "express";
 import ProfileController from "../../controllers/inicio.controller.js";
 import UserController from "../../controllers/user.controller.js";
 import { generateProducts } from "../../utils.js";
-
+import authMiddleware from "../../config/auth.validation.jwt.js";
 const router = Router();
 router.get("/chat", async (req, res) => {
   res.status(200).render("chat", { title: "chat" });
 });
 
-router.get("/profile", async (req, res) => {
+router.get("/profile", authMiddleware(["admin", "premium", "user"]), async (req, res) => {
   try {
     const { limit = 10, page = 1, sort = "asc", search = "" } = req.query;
 
@@ -24,11 +24,12 @@ router.get("/profile", async (req, res) => {
       title: "Lista de productos"
     };
 
-    if (role !== "admin") {
+    if (role !== "premium" && role !== "admin") {
       renderData.name = name;
 
     } else {
-      renderData.admin = role;
+      renderData.premium = role
+      renderData.admin = role
       renderData.name = name;
     }
 
@@ -39,7 +40,7 @@ router.get("/profile", async (req, res) => {
   }
 });
 
-router.get("/current", async (req, res) => {
+router.get("/current", authMiddleware(["admin", "premium", "user"]), async (req, res) => {
 
   try {
     const user = req.session;
@@ -56,7 +57,7 @@ router.get("/current", async (req, res) => {
 
 
 
-router.get("/mockingproducts", async (req, res) => {
+router.get("/mockingproducts", authMiddleware(["admin", "premium"]), async (req, res) => {
 
   const user = await generateProducts()
 

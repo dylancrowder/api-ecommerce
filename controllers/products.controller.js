@@ -1,4 +1,5 @@
 import ProductService from "../services/products.service.js";
+import UserService from "../services/user.service.js";
 export default class ProductController {
   static getALL() {
     const criteria = {};
@@ -15,7 +16,7 @@ export default class ProductController {
   }
 
   static async create(data) {
-    const { title, description, thumbnail, size, price, code, stock } = data;
+    const { title, description, thumbnail, size, price, code, stock, userEmail, role } = data;
 
     const newProduct = {
       title,
@@ -24,17 +25,57 @@ export default class ProductController {
       size,
       price,
       code,
-      stock
+      stock,
+      owner: {
+        email: userEmail,
+        role: role
+      }
     };
     return await ProductService.create(newProduct);
   }
 
 
-  static async deleteOne(pid) {
-    const product = await ProductService.deleteOne(pid)
-    if (!product) {
-      throw new NotFoundException(`Usuario ${pid} no encontrado 😱`);
+  static async deleteOne(pid, uid) {
+    const user = await UserService.findById(uid);
+    
+    if (!user) {
+      throw new NotFoundException(`Usuario ${uid} no encontrado 😱`);
     }
-    return product
+  
+    const product = await ProductService.getById(pid);
+    
+    if (!product) {
+      throw new NotFoundException(`Producto ${pid} no encontrado 😱`);
+    }
+  
+    // Verificar si el usuario es premium y si el producto le pertenece
+    if (user.role === 'premium' && product.owner.email !== user.email) {
+      throw new ForbiddenException('No tienes permiso para borrar este producto');
+    }
+  
+    // El administrador puede borrar cualquier producto
+    if (user.role === 'admin') {
+      const deletedProduct = await ProductService.deleteOne({ _id: pid });
+  
+      if (!deletedProduct) {
+        throw new NotFoundException(`Producto ${pid} no encontrado 😱`);
+      }
+  
+      return deletedProduct;
+    }
+  
+    // Si el usuario es el propietario del producto o es premium y le pertenece, se permite borrar
+    if (user.email === product.owner.email || (user.role === 'premium' && user.email === product.owner.email)) {
+      const deletedProduct = await ProductService.deleteOne({ _id: pid });
+  
+      if (!deletedProduct) {
+        throw new NotFoundException(`Producto ${pid} no encontrado 😱`);
+      }
+  
+      return deletedProduct;
+    } else {
+      throw new ForbiddenException('No tienes permiso para borrar este producto');
+    }
   }
+  
 }

@@ -8,7 +8,11 @@ const ProductsSchema = new mongoose.Schema(
     size: { type: String, default: "M" },
     price: { type: Number, require: true },
     code: { type: String, required: true },
-    stock: { type: Number, required: true }
+    stock: { type: Number, required: true },
+    owner: {
+      email: { type: String, default: "admin@admin.com" }, 
+      role: { type: String, default: "admin" },
+    }
   },
   { timestamps: true }
 );

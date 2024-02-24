@@ -5,10 +5,11 @@ import { CustomError } from "../../errors/CustomError.js";
 import { generatorID } from "../../errors/CauseMessageError.js";
 import EnumsError from "../../errors/EnumsError.js";
 import { logger } from "../../config/logger.js";
+import authMiddleware from "../../config/auth.validation.jwt.js";
 const router = Router();
 
 /* mostrar el carrito */
-router.get("/cartsview/:uid", async (req, res, next) => {
+router.get("/cartsview/:uid", authMiddleware(["admin", "premium", "user"]), async (req, res, next) => {
   try {
     const { uid } = req.params;
 
@@ -34,7 +35,7 @@ router.get("/cartsview/:uid", async (req, res, next) => {
 });
 
 
-router.post("/add-to-cart/:productId", async (req, res) => {
+router.post("/add-to-cart/:productId" , authMiddleware(["admin", "premium", "user"]), async (req, res) => {
   try {
 
     const { productId } = req.params;
@@ -63,7 +64,7 @@ router.post("/add-to-cart/:productId", async (req, res) => {
 
 
 
-router.get("/purcherase/:cid", async (req, res) => {
+router.get("/purcherase/:cid" , authMiddleware(["admin", "premium", "user"]), async (req, res) => {
 
   const { cid } = req.params
 
@@ -74,7 +75,7 @@ router.get("/purcherase/:cid", async (req, res) => {
 })
 
 
-router.delete("/testDelete/:pid", async (req, res) => {
+router.delete("/testDelete/:pid" , authMiddleware(["admin", "premium", "user"]), async (req, res) => {
 
   const uid = req.user._id.toString();
   const { pid } = req.params
