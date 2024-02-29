@@ -1,0 +1,113 @@
+openapi: 3.0.0
+info:
+  title: Your API
+  version: 1.0.0
+paths:
+
+  /api/getProduct/{pdi}:
+    get:
+      summary: Obtener un producto por su identificador.
+      tags:
+      - ecommerce
+      parameters:
+      - in: path
+        name: pdi
+        required: true
+        description: Identificador del producto a buscar.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Producto obtenido correctamente desde la base de datos.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado de la respuesta
+                    example: success
+                  payload:
+                    $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado.
+        '500':
+          description: Error interno del servidor.
+
+  /api/createProduct:
+    post:
+      summary: Crear un nuevo producto.
+      description: Endpoint para crear un nuevo producto.
+      tags:
+      - ecommerce
+      security:
+      - bearerAuth: []
+      requestBody:
+        description: Datos del producto a crear
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                thumbnail:
+                  type: string
+                size:
+                  type: string
+                price:
+                  type: number
+                code:
+                  type: number
+                stock:
+                  type: number
+              example:
+                title: "Product Title"
+                description: "Product Description"
+                thumbnail: "image-url.jpg"
+                size: "Large"
+                price: 29.99
+                code: 12345
+                stock: 100
+                email: "pedrorosales@hotmail.com"
+                role: "user"
+      responses:
+        '201':
+          description: Producto creado exitosamente.
+          content:
+            application/json:
+              example:
+                id: 1
+                title: "Product Title"
+                description: "Product Description"
+                thumbnail: "image-url.jpg"
+                size: "Large"
+                price: 29.99
+                code: 12345
+                stock: 100
+        '400':
+          description: Solicitud incorrecta - Datos no válidos proporcionados.
+          content:
+            application/json:
+              example:
+                error: "Bad Request"
+                message: "Invalid data provided"
+                details: "Validation error details"
+        '500':
+          description: Error interno del servidor.
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+                message: "An unexpected error occurred"
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+# Define the properties of the Product schema based on your actual model.

@@ -33,7 +33,7 @@ router.get("/profile", authMiddleware(["admin", "premium", "user"]), async (req,
       renderData.name = name;
     }
 
-    res.render("products", renderData);
+    res.render("products", renderData)
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");

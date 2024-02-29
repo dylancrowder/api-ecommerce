@@ -6,7 +6,7 @@ router.post(
   "/sessions/login",
   passport.authenticate("login", { failureRedirect: "/login" }),
   async (req, res) => {
-    res.redirect("/api/profile");
+  res.redirect("/api/profile");
   }
 );
 

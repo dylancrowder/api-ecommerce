@@ -15,10 +15,28 @@ import MongoStore from "connect-mongo";
 import { URI } from "./db/mongodb.js";
 import passport from "passport";
 import { init as initPassport } from "./config/passportConfig.js";
-import ensureAuthenticated from "./config/auth.validation.js";
 import auth from "./routers/auth.router.js"
 import { errorHandlerMiddleware } from "./middlewares/errorMiddleware.js";
 import { addLogger } from "./config/logger.js";
+import cors from "cors";
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+const swaggerOpts = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Adopme API',
+      description: 'Esta es la documentación de la API ecommerce.',
+    },
+  },
+  apis: [path.join(__dirname, 'docs', '**', '*.yaml')],
+};
+
+
+
+const specs = swaggerJSDoc(swaggerOpts);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 const SECRET = ",9O1z?Vq2yV0";
 
@@ -32,6 +50,14 @@ app.use(
     secret: SECRET,
     resave: true,
     saveUninitialized: true
+  })
+);
+
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"]
   })
 );
 app.use(addLogger);
