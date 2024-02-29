@@ -75,13 +75,5 @@ router.get("/purcherase/:cid" , authMiddleware(["admin", "premium", "user"]), as
 })
 
 
-router.delete("/testDelete/:pid" , authMiddleware(["admin", "premium", "user"]), async (req, res) => {
 
-  const uid = req.user._id.toString();
-  const { pid } = req.params
-
-
-  const cartUser = await CartsController.deleteOne(uid, pid)
-  res.status(200).json(cartUser)
-})
 export default router;

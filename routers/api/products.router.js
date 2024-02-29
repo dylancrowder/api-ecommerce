@@ -46,49 +46,26 @@ router.get("/getProduct/:pid", authMiddleware(["admin", "premium", "user"]), asy
 
 router.post("/product", authMiddleware(["admin", "premium"]), async (req, res, next) => {
   try {
-    const { data } = req.body
-    const userEmail = req.user.email
-    const role = req.user.role
+    const { title, description, thumbnail, size, price, code, stock } = req.body;
+    const userEmail = req.user.email;
+    const role = req.user.role;
 
-
-
-    const {
+    const dataSend = {
       title,
       description,
       thumbnail,
       size,
       price,
       code,
-      stock } = data
-
-    const dataSend = {
-      ...data,
+      stock,
       userEmail,
       role
+    };
 
-    }
-    if (!title ||
-      !description ||
-      !thumbnail ||
-      !size ||
-      !price ||
-      isNaN(price) ||
-      !code ||
-      isNaN(code) ||
-      !stock ||
-      isNaN(stock)) {
-
-      CustomError.create({
+    if (!title || !description || !thumbnail || !size || isNaN(price) || !code || isNaN(code) || !stock || isNaN(stock)) {
+      const error = CustomError.create({
         name: 'no llega la data',
-        cause: generatorUserError({
-          title,
-          description,
-          thumbnail,
-          size,
-          price,
-          code,
-          stock
-        }),
+        cause: generatorUserError(dataSend),  
         message: 'no se recibieron los datos',
         code: EnumsError.BAD_REQUEST_ERROR,
       });
@@ -96,13 +73,10 @@ router.post("/product", authMiddleware(["admin", "premium"]), async (req, res, n
       throw error;
     }
 
-
-
     const product = await ProductController.create(dataSend);
 
 
-
-    res.status(201).render(product);
+    res.status(201).json(product);
   } catch (error) {
     next(error);
   }
