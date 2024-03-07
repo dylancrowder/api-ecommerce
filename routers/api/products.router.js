@@ -65,7 +65,7 @@ router.post("/product", authMiddleware(["admin", "premium"]), async (req, res, n
     if (!title || !description || !thumbnail || !size || isNaN(price) || !code || isNaN(code) || !stock || isNaN(stock)) {
       const error = CustomError.create({
         name: 'no llega la data',
-        cause: generatorUserError(dataSend),  
+        cause: generatorUserError(dataSend),
         message: 'no se recibieron los datos',
         code: EnumsError.BAD_REQUEST_ERROR,
       });
@@ -103,6 +103,7 @@ router.delete("/deleteProduct/:pid/:uid", authMiddleware(["admin", "premium"]), 
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 
