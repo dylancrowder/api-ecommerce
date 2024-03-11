@@ -9,10 +9,9 @@ import authMiddleware from "../../config/auth.validation.jwt.js";
 const router = Router();
 
 /* mostrar el carrito */
-router.get("/cartsview/:uid", authMiddleware(["admin", "premium", "user"]), async (req, res, next) => {
+router.get("/cartsview/:uid", async (req, res, next) => {
   try {
     const { uid } = req.params;
-
     const cart = await CartsController.getById(uid);
 
     if (!cart) {
@@ -24,10 +23,21 @@ router.get("/cartsview/:uid", authMiddleware(["admin", "premium", "user"]), asyn
       });
 
       throw customError;
-
     }
 
-    res.render("cart", { cart: cart.toJSON(), user: uid, title: "carrito" });
+
+    const acceptsJSON = req.accepts('json');
+
+    if (acceptsJSON) {
+
+      res.json({
+        status: 'success',
+        payload: cart.toJSON()
+      });
+    } else {
+
+      res.render("cart", { cart: cart.toJSON(), user: uid, title: "carrito" });
+    }
   } catch (error) {
     console.error("Message:", error.message);
     next(error);
@@ -35,7 +45,7 @@ router.get("/cartsview/:uid", authMiddleware(["admin", "premium", "user"]), asyn
 });
 
 
-router.post("/add-to-cart/:productId" , authMiddleware(["admin", "premium", "user"]), async (req, res) => {
+router.post("/add-to-cart/:productId", authMiddleware(["admin", "premium", "user"]), async (req, res) => {
   try {
 
     const { productId } = req.params;
@@ -43,7 +53,7 @@ router.post("/add-to-cart/:productId" , authMiddleware(["admin", "premium", "use
 
     logger.info(`Adding product ${productId} to the cart for user ${userId}`)
 
- 
+
 
     const result = await CartsController.addToCart(userId, productId);
 
@@ -64,7 +74,7 @@ router.post("/add-to-cart/:productId" , authMiddleware(["admin", "premium", "use
 
 
 
-router.get("/purcherase/:cid" , authMiddleware(["admin", "premium", "user"]), async (req, res) => {
+router.get("/purcherase/:cid", authMiddleware(["admin", "premium", "user"]), async (req, res) => {
 
   const { cid } = req.params
 
