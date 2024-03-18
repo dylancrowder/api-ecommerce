@@ -17,4 +17,14 @@ export default class userDaoMongoDB {
     }
   }
 
+  static async updateDocument(userId, newOBJDocument) {
+    try {
+      return await userRegisterModel.updateOne({ _id: userId }, { $set: { documents: newOBJDocument } });
+    } catch (error) {
+      throw new Error(`Error en updateRole: ${error.message}`);
+    }
+  }
+
+
+
 }

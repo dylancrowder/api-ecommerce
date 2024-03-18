@@ -4,7 +4,6 @@ import ProfileController from "../../controllers/inicio.controller.js";
 import UserController from "../../controllers/user.controller.js";
 import { generateProducts } from "../../utils.js";
 import authMiddleware from "../../config/auth.validation.jwt.js";
-import userDaoMongoDB from "../../dao/user.dao.js";
 
 const router = Router();
 router.get("/chat", async (req, res) => {
@@ -46,6 +45,7 @@ router.get("/current", authMiddleware(["admin", "premium", "user"]), async (req,
 
   try {
     const user = req.session;
+    console.log(" este es el user", user);
     const userDTO = await UserController.findById(user.passport.user);
     res.status(200).json(userDTO);
   } catch (error) {
@@ -55,26 +55,6 @@ router.get("/current", authMiddleware(["admin", "premium", "user"]), async (req,
 });
 
 
-
-router.put("/users/premium/:uid", async (req, res) => {
-
-  try {
-
-    console.log("este es el token", token);
-    const { uid } = req.params
-    console.log("este es ", uid);
-    const { newRole } = req.body
-    const user = await userDaoMongoDB.findById(uid)
-
-    console.log("este es el usuario de la base de dat", user);
-    console.log("este el el role", newRole);
-    const userUpdate = await userDaoMongoDB.updateRole(uid, newRole)
-    res.status(200).json(userUpdate)
-
-  } catch (error) {
-    res.status(400).json({ error: "no se encontro user" })
-  }
-})
 
 
 

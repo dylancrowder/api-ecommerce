@@ -1,29 +1,21 @@
-
-
-// Middleware de autenticación con verificación de roles
 function authMiddleware(roles) {
     return (req, res, next) => {
-        // Obtener el token del encabezado de autorización
+        const token = req.user.role;
 
-        const token = req.user.role
-
-        // Verificar si el token está presente
         if (!token) {
-            return res.status(401).render("acceso")
+            return res.status(401).json({ message: "Autenticación requerida" });
         }
 
         try {
-
-
             // Verificar el rol del usuario
             if (!roles.includes(token)) {
-                return res.status(403).render("acceso")
+                return res.status(403).json({ message: "No tienes permisos para acceder a este recurso" });
             }
-            console.log("esta autorizado");
+            console.log("Está autorizado");
             next();
         } catch (error) {
-
-            return res.status(401).json({ message: 'Token no válido.' });
+            console.error("Error de autenticación:", error);
+            return next(error); // Pasa el error al siguiente middleware de manejo de errores
         }
     };
 }

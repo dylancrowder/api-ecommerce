@@ -10,6 +10,7 @@ import cartRouterApi from "./routers/api/carts.router.js";
 import cookieParser from "cookie-parser";
 import userLogin from "./routers/api/sessions.router.js";
 import email from "./routers/api/email.router.js"
+import users from "./routers/api/users.router.js"
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import { URI } from "./db/mongodb.js";
@@ -21,6 +22,7 @@ import { addLogger } from "./config/logger.js";
 import cors from "cors";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
+
 const swaggerOpts = {
   definition: {
     openapi: '3.0.0',
@@ -74,7 +76,7 @@ app.use(passport.session());
 
 app.use("/", userLogin);
 app.use("/", auth)
-app.use("/api", productRouterApi, cartRouterApi, inicio, email);
+app.use("/api", productRouterApi, cartRouterApi, inicio, email, users);
 app.use(errorHandlerMiddleware);
 
 export default app;

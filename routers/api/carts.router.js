@@ -9,8 +9,10 @@ import authMiddleware from "../../config/auth.validation.jwt.js";
 const router = Router();
 
 /* mostrar el carrito */
-router.get("/cartsview/:uid", async (req, res, next) => {
+router.get("/cartsview/:uid", authMiddleware(["admin", "premium", "user"]), async (req, res, next) => {
   try {
+    const user = req.user
+    console.log("holahola",req);
     const { uid } = req.params;
     const cart = await CartsController.getById(uid);
 
@@ -25,13 +27,13 @@ router.get("/cartsview/:uid", async (req, res, next) => {
       throw customError;
     }
 
-
     const acceptsJSON = req.accepts('json');
 
     if (acceptsJSON) {
 
       res.json({
         status: 'success',
+
         payload: cart.toJSON()
       });
     } else {
@@ -45,7 +47,7 @@ router.get("/cartsview/:uid", async (req, res, next) => {
 });
 
 
-router.post("/add-to-cart/:productId", authMiddleware(["admin", "premium", "user"]), async (req, res) => {
+router.post("/add-to-cart/:productId", /* authMiddleware(["admin", "premium", "user"]), */ async (req, res) => {
   try {
 
     const { productId } = req.params;

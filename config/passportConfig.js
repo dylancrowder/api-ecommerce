@@ -55,6 +55,8 @@ export const init = () => {
         if (isNotValidPass) {
           return done(new Error("Correo o contraseña invalidos."));
         }
+        user.last_conection = new Date();
+        await user.save();
         done(null, user);
       }
     )
