@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import UserService from "../../services/user.service.js";
 import userDaoMongoDB from "../../dao/user.dao.js";
+import UserController from "../../controllers/user.controller.js";
 
 const router = express.Router();
 
@@ -90,8 +91,44 @@ router.put("/users/premium/:uid", async (req, res) => {
     }
 });
 
+router.get("/users", async (req, res) => {
 
 
+    const users = await UserController.findAll()
+    res.status(200).json(users)
+})
+
+
+
+router.delete("/users", async (req, res) => {
+
+
+    const users = await UserController.deleteOldUser()
+    res.status(200).json(users)
+})
+
+
+router.post("/updateRoles/:email", async (req, res) => {
+    const { email } = req.params;
+    const { newRole } = req.body; // Obtener el nuevo rol del cuerpo de la solicitud
+    console.log(newRole);
+
+    try {
+        // Suponiendo que UserService.updateRoleEmail() devuelve una promesa
+        const roleUpdate = await UserService.updateRoleEmail(email, newRole);
+        res.status(200).json(roleUpdate); // Enviar los datos actualizados del usuario como respuesta
+    } catch (error) {
+        console.error("Error al actualizar el rol del usuario:", error);
+        res.status(500).json({ error: "Error interno del servidor" }); // Manejar errores y enviar una respuesta adecuada
+    }
+});
+
+
+router.get("/updateRole", async (req, res) => {
+    const users = await UserController.findAll()
+
+    res.render("updateRole", { users });
+})
 export default router;
 
 

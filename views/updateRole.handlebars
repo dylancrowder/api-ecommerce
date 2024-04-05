@@ -1,0 +1,21 @@
+
+
+<body>
+    <h1>Update User Roles</h1>
+    <ul>
+        {{#each users}}
+        <li>
+            <strong>{{this.fullname}}</strong> - Role: {{this.role}}
+            <form action="/api/updateRoles/{{this.email}}" method="post">
+                <select name="newRole">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                    <option value="premium">premium</option>
+                </select>
+                <button type="submit">Change Role</button>
+            </form>
+        </li>
+        {{/each}}
+    </ul>
+</body>
+

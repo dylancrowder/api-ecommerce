@@ -10,6 +10,26 @@ export default class UserService {
   }
 
 
+
+  static async updateRoleEmail(email, newRole) {
+    try {
+      return await userDaoMongoDB.updateRoleEmail(email, newRole)
+    } catch (error) {
+      throw new Error(`Error en updateRole: ${error.message}`);
+    }
+  }
+
+
+
+  static deleteOldUser(fechaLimite) {
+    return userDaoMongoDB.deleteOldUser(fechaLimite)
+  }
+
+
+  static findAll() {
+    return userDaoMongoDB.findAll()
+  }
+
   static async updateDocument(userId, newOBJDocument) {
     try {
       return await userDaoMongoDB.updateDocument(userId, newOBJDocument)
