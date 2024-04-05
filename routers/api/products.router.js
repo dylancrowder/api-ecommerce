@@ -84,10 +84,10 @@ router.post("/product", authMiddleware(["admin", "premium"]), async (req, res, n
 
 
 
-router.delete("/deleteProduct/:pid/:uid", authMiddleware(["admin", "premium"]), async (req, res) => {
+router.delete("/deleteProduct/:pid/:uid", async (req, res) => {
   try {
     const { pid } = req.params;
-    const { uid } = req.params
+    const { uid } = req.params;
 
     const result = await ProductController.deleteOne(pid, uid);
 

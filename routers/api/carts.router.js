@@ -11,8 +11,7 @@ const router = Router();
 /* mostrar el carrito */
 router.get("/cartsview/:uid", authMiddleware(["admin", "premium", "user"]), async (req, res, next) => {
   try {
-    const user = req.user
-    console.log("holahola",req);
+  
     const { uid } = req.params;
     const cart = await CartsController.getById(uid);
 
@@ -47,7 +46,7 @@ router.get("/cartsview/:uid", authMiddleware(["admin", "premium", "user"]), asyn
 });
 
 
-router.post("/add-to-cart/:productId", /* authMiddleware(["admin", "premium", "user"]), */ async (req, res) => {
+router.post("/add-to-cart/:productId",  authMiddleware(["admin", "premium", "user"]), async (req, res) => {
   try {
 
     const { productId } = req.params;

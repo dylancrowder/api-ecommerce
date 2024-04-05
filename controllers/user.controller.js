@@ -29,7 +29,7 @@ export default class UserController {
 
       const result = await emailService.sendEmail(
         iterator.email,
-        'Recupera tu contraseña',
+        'usuario eliminado',
         `<div>
           <h1>cueta eliminada</h1>
           <p>su cuenta fue removida por no inicir session despues de 2 dias</p>
@@ -39,14 +39,6 @@ export default class UserController {
 
 
     }
-
-
-
-
-
-
-
-
 
     console.log(matchs);
 
