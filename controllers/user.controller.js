@@ -18,7 +18,7 @@ export default class UserController {
 
   static async deleteOldUser() {
     const limitDate = new Date();
-    limitDate.setMinutes(limitDate.getMinutes() - 1);
+    limitDate.setDate(limitDate.getDate() - 2);
 
 
     const matchs = await userRegisterModel.find({
@@ -40,7 +40,7 @@ export default class UserController {
 
     }
 
-    console.log(matchs);
+
 
     return await UserService.deleteOldUser(limitDate)
   }
